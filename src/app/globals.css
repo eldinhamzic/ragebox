@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; overflow-x: hidden; background: #090a12; color: #f5f7ff; font-family: Arial, Helvetica, sans-serif; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+.game-canvas { width: 100%; }
+.game-canvas canvas { width: 100% !important; height: auto !important; aspect-ratio: 3 / 2; }
+@media (max-width: 640px) {
+  .game-canvas canvas { min-height: 270px; object-fit: contain; }
+}
+.arcade-grid { background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 24px 24px; }

@@ -1,0 +1,8 @@
+import Phaser from 'phaser';
+import type { TrapDefinition } from '../levels/types';
+
+export type TrapInstance = { reset: () => void };
+export function createTrap(scene: Phaser.Scene, def: TrapDefinition, onDeath: () => void): TrapInstance {
+  if (def.type === 'disappearing-platform') { const body = scene.add.rectangle(def.x + def.width / 2, def.y, def.width, def.height, 0x4477aa).setOrigin(.5); let timer: Phaser.Time.TimerEvent | undefined; let triggered = false; scene.physics.add.existing(body, true); scene.physics.add.overlap(scene.data.get('player'), body, () => { if (triggered) return; triggered = true; timer = scene.time.delayedCall(def.delayMs ?? 350, () => { body.setVisible(false); (body.body as Phaser.Physics.Arcade.StaticBody).enable = false; }); }); return { reset: () => { timer?.remove(); triggered = false; body.setVisible(true); (body.body as Phaser.Physics.Arcade.StaticBody).enable = true; } }; }
+  const spikes = scene.add.triangle(def.x + def.width / 2, def.y + def.height / 2, 0, def.height, def.width / 2, 0, def.width, def.height, 0xe44b69).setVisible(false).setOrigin(.5); const zone = scene.add.zone(def.x + def.width / 2, def.y + def.height / 2, def.width, def.height); scene.physics.add.existing(zone, true); let active = false; scene.physics.add.overlap(scene.data.get('player'), zone, () => { if (active) onDeath(); }); scene.time.delayedCall(def.activationDelayMs ?? 250, () => { active = true; spikes.setVisible(true); }); return { reset: () => { active = false; spikes.setVisible(false); scene.time.delayedCall(def.activationDelayMs ?? 250, () => { active = true; spikes.setVisible(true); }); } };
+}
