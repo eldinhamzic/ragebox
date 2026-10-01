@@ -1,3 +1,20 @@
 import * as Phaser from 'phaser';
 import { TrollRunScene } from './TrollRunScene';
-export function createTrollConfig(onComplete: (result: { time: number; deaths: number }) => void): Phaser.Types.Core.GameConfig { return { type: Phaser.AUTO, width: 900, height: 600, backgroundColor: '#121725', scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH }, physics: { default: 'arcade', arcade: { gravity: { x: 0, y: 900 }, debug: false } }, scene: [TrollRunScene], callbacks: { postBoot: game => { const scene = game.scene.getScene('troll-run') as TrollRunScene; scene.events.once('complete', onComplete); } } }; }
+
+export function createTrollConfig(onComplete: (result: { time: number; deaths: number }) => void): Phaser.Types.Core.GameConfig {
+  return {
+    type: Phaser.AUTO,
+    width: 960,
+    height: 540,
+    backgroundColor: '#121725',
+    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+    physics: { default: 'arcade', arcade: { gravity: { x: 0, y: 900 }, debug: false } },
+    scene: [TrollRunScene],
+    callbacks: {
+      postBoot: game => {
+        const scene = game.scene.getScene('troll-run') as TrollRunScene;
+        scene.events.once('complete', onComplete);
+      },
+    },
+  };
+}
