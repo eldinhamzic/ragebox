@@ -22,8 +22,8 @@ type DeathPiece = {
   age: number;
 };
 
-const PLAYER_VISUAL_SCALE = 0.78;
-const RUN_CYCLE_DISTANCE = 72;
+const PLAYER_VISUAL_SCALE = 0.70;
+const RUN_CYCLE_DISTANCE = 54;
 const LANDING_DURATION_MS = 130;
 const RUN_BOB_AMOUNT = 1.4;
 const SHIRT_LAG_MAX = 3;

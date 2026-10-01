@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser';
 import { firstSteps } from '../levels/first-steps';
-import type { PlatformDefinition } from '../levels/types';
 import { createTrap, type TrapInstance } from '../traps/Trap';
 import { PlayerVisual } from '../player/PlayerVisual';
+import { createPlatform } from '../platforms/createPlatform';
 
 const MAX_RUN_SPEED = 140;
 const GROUND_ACCELERATION = 1500;
@@ -39,15 +39,13 @@ export class TrollRunScene extends Phaser.Scene {
 
     this.add.graphics().fillStyle(0xffffff).fillRoundedRect(0, 0, 30, 42, 8).generateTexture('player', 30, 42);
     this.platforms = this.physics.add.staticGroup();
-    level.platforms
-      .filter(p => !level.traps.some(t => t.type === 'disappearing-platform' && t.x === p.x))
-      .forEach(p => this.addPlatform(p));
+    level.platforms.forEach(platform => createPlatform(this, this.platforms, platform));
 
     this.player = this.physics.add.sprite(level.playerStart.x, level.playerStart.y, 'player');
     this.player
       .setAlpha(0)
       .setCollideWorldBounds(true)
-      .setBodySize(24, 72, true)
+      .setBodySize(18, 50, true)
       .setGravityY(PLAYER_GRAVITY_BOOST);
 
     this.visual = new PlayerVisual(this);
@@ -92,24 +90,6 @@ export class TrollRunScene extends Phaser.Scene {
     b.on('pointerup', () => { this.touch[key] = false; });
     b.on('pointerout', () => { this.touch[key] = false; });
     b.on('pointerupoutside', () => { this.touch[key] = false; });
-  }
-
-  private addPlatform(p: PlatformDefinition) {
-    const colors = { book: 0x356da8, lego: 0xd94a52, table: 0x8e5a3c, generic: 0x69748f };
-    const r = this.add.rectangle(p.x + p.width / 2, p.y, p.width, p.height, colors[p.kind]);
-    this.platforms.add(r);
-    const g = this.add.graphics();
-    if (p.kind === 'book') {
-      g.fillStyle(0x1f4778, 1).fillRect(p.x, p.y + 12, p.width, 9);
-      g.lineStyle(2, 0x79b8db, 0.75).lineBetween(p.x + 8, p.y - 10, p.x + p.width - 8, p.y - 10);
-    } else if (p.kind === 'lego') {
-      g.fillStyle(0xf5c84b, 1);
-      for (let x = p.x + 22; x < p.x + p.width - 10; x += 38) g.fillCircle(x, p.y - 18, 7);
-    } else if (p.kind === 'table') {
-      g.fillStyle(0x5d3829, 1).fillRect(p.x + 18, p.y + 20, 20, 90).fillRect(p.x + p.width - 38, p.y + 20, 20, 90);
-    } else {
-      g.lineStyle(2, 0x9aa8bb, 0.65).strokeRect(p.x, p.y - 8, p.width, p.height + 8);
-    }
   }
 
   private die() {
