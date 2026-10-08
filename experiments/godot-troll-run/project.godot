@@ -1,0 +1,20 @@
+; Standalone experiment. Open this file in Godot 4.4+.
+config_version=5
+
+[application]
+config/name="Ragebox — Troll Run Prototype"
+run/main_scene="res://scenes/first_steps.tscn"
+config/features=PackedStringArray("4.4", "GL Compatibility")
+
+[display]
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+
+[physics]
+common/physics_ticks_per_second=60
