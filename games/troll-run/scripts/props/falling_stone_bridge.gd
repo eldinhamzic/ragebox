@@ -11,6 +11,8 @@ extends Node2D
 @export var fall_delay := 0.08
 @export var fall_distance := 180.0
 @export var indoor_style := false
+@export var collapse_start := 0
+@export var collapse_end := -1
 
 const INK := Color("241c35")
 const STONE := Color("8fa7b1")
@@ -133,8 +135,9 @@ func _on_stone_body_entered(body: Node2D, index: int) -> void:
     _collapse_chain_from(index)
 
 func _collapse_chain_from(start_index: int) -> void:
-    # The stone under the player falls first, then the stones behind it follow.
-    for index in range(start_index, -1, -1):
+    var first := maxi(start_index, collapse_start)
+    var last := collapse_end if collapse_end >= 0 else stone_count - 1
+    for index in range(first, last + 1):
         if index >= fallen.size() or fallen[index]:
             continue
         fallen[index] = true

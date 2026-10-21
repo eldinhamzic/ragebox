@@ -36,6 +36,24 @@ const BLOCK2_LEVEL_NAMES := [
     "Nivo 6  ·  Posljednja prepreka",
 ]
 
+const BLOCK3_LEVEL_PATHS := [
+    "res://scenes/blocks/block03/Level01.tscn",
+    "res://scenes/blocks/block03/Level02.tscn",
+    "res://scenes/blocks/block03/Level03.tscn",
+    "res://scenes/blocks/block03/Level04.tscn",
+    "res://scenes/blocks/block03/Level05.tscn",
+    "res://scenes/blocks/block03/Level06.tscn",
+]
+
+const BLOCK3_LEVEL_NAMES := [
+    "Nivo 1  ·  Noć, grom i propadajući most",
+    "Nivo 2  ·  Muha i šiljci",
+    "Nivo 3  ·  Zeleni skokovi",
+    "Nivo 4  ·  Izlazeći šiljci",
+    "Nivo 5  ·  Visoke platforme",
+    "Nivo 6  ·  Lift na kraju bloka",
+]
+
 var level_panel: VBoxContainer
 var block_panel: VBoxContainer
 
@@ -96,17 +114,21 @@ func _show_blocks() -> void:
     block_two.pressed.connect(_show_levels.bind(1))
     block_panel.add_child(block_two)
 
+    var block_three := _make_button("BLOK 3   ·   NOĆ VANI", false)
+    block_three.pressed.connect(_show_levels.bind(2))
+    block_panel.add_child(block_three)
+
 
 func _show_levels(block_index: int) -> void:
     _clear_children(level_panel)
     var label := Label.new()
-    label.text = "BLOK 1 — IZABERI NIVO" if block_index == 0 else "BLOK 2 — IZABERI NIVO"
+    label.text = "BLOK %d — IZABERI NIVO" % (block_index + 1)
     label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     label.add_theme_font_size_override("font_size", 22)
     level_panel.add_child(label)
 
-    var paths: Array = LEVEL_PATHS if block_index == 0 else BLOCK2_LEVEL_PATHS
-    var names: Array = LEVEL_NAMES if block_index == 0 else BLOCK2_LEVEL_NAMES
+    var paths: Array = LEVEL_PATHS if block_index == 0 else (BLOCK2_LEVEL_PATHS if block_index == 1 else BLOCK3_LEVEL_PATHS)
+    var names: Array = LEVEL_NAMES if block_index == 0 else (BLOCK2_LEVEL_NAMES if block_index == 1 else BLOCK3_LEVEL_NAMES)
     for index in range(paths.size()):
         var button := _make_button(names[index], false)
         button.pressed.connect(_start_level.bind(block_index, index, paths[index]))

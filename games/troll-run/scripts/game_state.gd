@@ -5,6 +5,7 @@ extends Node
 const BLOCK_STARTS := [
     "res://scenes/blocks/block01/Level01.tscn",
     "res://scenes/blocks/block02/Level01.tscn",
+    "res://scenes/blocks/block03/Level01.tscn",
 ]
 
 var current_block := 0

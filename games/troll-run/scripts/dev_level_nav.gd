@@ -15,6 +15,12 @@ const LEVELS := [
     "res://scenes/blocks/block02/Level04.tscn",
     "res://scenes/blocks/block02/Level05.tscn",
     "res://scenes/blocks/block02/Level06.tscn",
+    "res://scenes/blocks/block03/Level01.tscn",
+    "res://scenes/blocks/block03/Level02.tscn",
+    "res://scenes/blocks/block03/Level03.tscn",
+    "res://scenes/blocks/block03/Level04.tscn",
+    "res://scenes/blocks/block03/Level05.tscn",
+    "res://scenes/blocks/block03/Level06.tscn",
 ]
 
 var panel: PanelContainer

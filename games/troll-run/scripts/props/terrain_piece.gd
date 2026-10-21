@@ -5,6 +5,7 @@ extends Node2D
 @export_enum("Ground", "Brick Floor", "Outdoor Water Gap", "Indoor Black Gap") var piece_type := "Ground" : set = set_piece_type
 @export var piece_size := Vector2(144, 90) : set = set_piece_size
 @export_enum("Solid", "Drop On Touch", "Drop On Landing") var platform_behavior := "Solid" : set = set_platform_behavior
+@export_enum("Default", "Block 3") var ground_palette := "Default"
 @export var show_anchor := false
 
 var solid_body: StaticBody2D
@@ -127,13 +128,19 @@ func _draw() -> void:
         draw_circle(Vector2.ZERO, 4, Color("f05ab2"))
 
 func _draw_ground() -> void:
-    var outline := Color("3b2a2a")
     var dirt := Color("9b5d3f")
     var dark_dirt := Color("68402f")
-    draw_rect(Rect2(Vector2.ZERO, piece_size), outline)
-    draw_rect(Rect2(4, 12, piece_size.x - 8, piece_size.y - 16), dirt)
-    draw_rect(Rect2(0, 0, piece_size.x, 14), Color("4cae68"))
-    draw_rect(Rect2(0, 0, piece_size.x, 4), Color("8bd36d"))
+    var grass := Color("4cae68")
+    var grass_light := Color("8bd36d")
+    if ground_palette == "Block 3":
+        dirt = Color("263d32")
+        dark_dirt = Color("17251f")
+        grass = Color("4cae68")
+        grass_light = Color("8bd36d")
+    # Ground pieces are seamless so a drop section cannot be identified.
+    draw_rect(Rect2(Vector2.ZERO, piece_size), dirt)
+    draw_rect(Rect2(0, 0, piece_size.x, 14), grass)
+    draw_rect(Rect2(0, 0, piece_size.x, 4), grass_light)
     for x in range(12, int(piece_size.x), 34):
         draw_line(Vector2(x, 22), Vector2(x + 7, 32), dark_dirt, 3)
         draw_line(Vector2(x + 16, piece_size.y - 24), Vector2(x + 23, piece_size.y - 12), dark_dirt, 2)
