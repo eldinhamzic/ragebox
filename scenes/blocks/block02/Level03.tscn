@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/blocks/block02/level03.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/props/RedButton.tscn" id="3_button"]
+[ext_resource type="PackedScene" path="res://scenes/props/Piano.tscn" id="4_piano"]
+[ext_resource type="PackedScene" path="res://scenes/props/IndoorStairs.tscn" id="5_stairs"]
+
+[node name="Level03" type="Node2D"]
+script = ExtResource("1_level")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(24, 450)
+
+[node name="StartButton" parent="." instance=ExtResource("3_button")]
+position = Vector2(130, 450)
+
+[node name="TrapButton" parent="." instance=ExtResource("3_button")]
+position = Vector2(410, 280)
+visible = false
+
+[node name="SafeButton" parent="." instance=ExtResource("3_button")]
+position = Vector2(410, 280)
+visible = false
+
+[node name="Piano" parent="." instance=ExtResource("4_piano")]
+position = Vector2(410, 80)
+visible = false
+
+[node name="ExitStairs" parent="." instance=ExtResource("5_stairs")]
+position = Vector2(360, 450)
+step_count = 10
+step_width = 48.0
+step_height = 17.0
+active = false
+visible = false

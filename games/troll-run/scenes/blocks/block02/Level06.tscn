@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/blocks/block02/level06.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/props/RedButton.tscn" id="3_button"]
+[ext_resource type="PackedScene" path="res://scenes/props/TerrainPiece.tscn" id="4_terrain"]
+[ext_resource type="PackedScene" path="res://scenes/props/IndoorLift.tscn" id="5_lift"]
+[ext_resource type="PackedScene" path="res://scenes/props/FlyingHammer.tscn" id="6_hammer"]
+
+[node name="Level06" type="Node2D"]
+script = ExtResource("1_level")
+next_level_path = "res://scenes/BlockTransition.tscn"
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(24, 450)
+
+[node name="Platform2" parent="." instance=ExtResource("4_terrain")]
+position = Vector2(362, 320)
+piece_type = "Brick Floor"
+piece_size = Vector2(72, 24)
+platform_behavior = "Drop On Landing"
+
+[node name="Platform3" parent="." instance=ExtResource("4_terrain")]
+position = Vector2(434, 250)
+piece_type = "Brick Floor"
+piece_size = Vector2(72, 24)
+platform_behavior = "Drop On Landing"
+
+[node name="ExitButton" parent="." instance=ExtResource("3_button")]
+position = Vector2(542, 180)
+
+[node name="ExitLift" parent="." instance=ExtResource("5_lift")]
+position = Vector2(900, 450)
+indoor_style = true
+travel_distance = 180.0
+unlocked = false
+
+[node name="FlyingHammer" parent="." instance=ExtResource("6_hammer")]
+position = Vector2(900, 40)
+visible = false
+attack_direction = "From Above"
+trigger_radius = 1.0
+warning_time = 0.0

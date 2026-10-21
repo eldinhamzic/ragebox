@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/sledgehammer.gd" id="1_sledgehammer"]
+
+[node name="Sledgehammer" type="Node2D"]
+script = ExtResource("1_sledgehammer")
+metadata/_description = "Reusable pixel-art sledgehammer prop. Add collision and animation when used as a trap."
