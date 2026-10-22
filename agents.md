@@ -217,3 +217,16 @@ Cilj je da razvoj novih nivoa prvenstveno predstavlja kombinovanje i podešavanj
 - **Upozorenje:** Nema zasebnog zvučnog ili vizuelnog upozorenja neposredno prije pada klavira. Eventualni zvuk na početku nivoa nije dio najave pada.
 - **Konfiguracija nivoa:** Odrediti poziciju klavira, tip i vezu okidača; zajednički izgled, brzina i osnovno ponašanje ostaju nepromijenjeni.
 - **Integracija i provjera:** Pronaći postojeću implementaciju, napraviti samo potrebne promjene te provjeriti koliziju, jednokratnost, reset, vertikalan pad i ostajanje na podlozi. Ne mijenjati druge nivoe bez zahtjeva.
+
+## 15. Šiljci — obavezna definicija elementa
+
+- **Identitet i izgled:** Koristiti postojeći element šiljaka. Skriveni šiljci vizuelno se ne razlikuju od obične podloge prije aktivacije.
+- **Grupisanje:** Šiljci su raspoređeni u grupe od tri. Svaki od tri šiljka ima vlastiti okidač i nezavisno stanje otkrivenosti.
+- **Početno stanje:** Sva tri šiljka skrivena su u podlozi.
+- **Aktivacija:** Odgovarajući šiljak izlazi kada igrač dođe do pozicije definisane za taj šiljak u konfiguraciji nivoa. Aktivacija jednog šiljka ne otkriva preostala dva.
+- **Animacija:** Izlazak iz podloge traje tačno **0,2 sekunde**, što omogućava kratku reakciju igrača.
+- **Kolizija:** Dodir igrača s izvučenim šiljkom uzrokuje smrt igrača, koristeći postojeći sistem smrti.
+- **Pamćenje unutar nivoa:** Kada igrač umre i ponavlja **isti nivo**, svi ranije aktivirani šiljci ostaju vidljivi, a oni koji nisu bili aktivirani ostaju skriveni. Ovo stanje se kumulativno čuva kroz ponovne pokušaje istog nivoa.
+- **Reset pri vraćanju:** Kada se igrač prema postojećim pravilima napredovanja vrati na raniji nivo (npr. na početak bloka), svi prethodno otkriveni šiljci resetuju se u skriveno stanje. Ne mijenjati postojeća pravila povratka.
+- **Konfiguracija nivoa:** Definisati položaj svakog šiljka i njegovu okidačku poziciju. Zajednička logika grupe, trajanje animacije, kolizija i pamćenje moraju ostati dosljedni.
+- **Integracija i provjera:** Pronaći i prilagoditi postojeći element bez dupliranja. Provjeriti nezavisne okidače, animaciju od 0,2 s, smrt pri dodiru, kumulativnu vidljivost pri ponavljanju istog nivoa i reset pri povratku na raniji nivo. Ne mijenjati druge elemente ni nivoe bez zahtjeva.
