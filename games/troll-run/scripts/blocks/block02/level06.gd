@@ -68,10 +68,13 @@ func _strike_first_platform() -> void:
     hammer_triggered = true
     lightning_visible = true
     queue_redraw()
-    await get_tree().create_timer(0.8).timeout
+    await get_tree().create_timer(0.5).timeout
     if not is_inside_tree():
         return
     lightning_visible = false
+    await get_tree().create_timer(0.6).timeout
+    if not is_inside_tree():
+        return
     $FlyingHammer.visible = true
     $FlyingHammer.strike_target(Vector2(PLATFORM_1.position.x + PLATFORM_1.size.x / 2.0, PLATFORM_1.position.y))
     await get_tree().create_timer(0.24).timeout

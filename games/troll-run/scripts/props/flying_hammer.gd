@@ -6,7 +6,10 @@ signal strike_completed
 
 @export_enum("From Left", "From Right", "From Above", "From Below") var attack_direction := "From Left" : set = set_attack_direction
 @export var trigger_radius := 150.0
-@export var warning_time := 0.18
+@export var flash_duration := 0.5
+@export var post_flash_delay := 0.6
+# Kept for scene compatibility; the shared timing is now flash_duration + post_flash_delay.
+@export var warning_time := 0.0
 @export var flight_time := 0.24
 @export var return_time := 0.35
 @export var active := true
@@ -16,6 +19,7 @@ var hitbox: Area2D
 var home_position := Vector2.ZERO
 var armed := false
 var flying := false
+var flash_active := false
 
 func _ready() -> void:
     home_position = global_position
@@ -67,7 +71,12 @@ func _on_trigger_body_entered(body: Node2D) -> void:
     if armed or flying or not body.has_method("die"):
         return
     armed = true
-    await get_tree().create_timer(warning_time).timeout
+    flash_active = true
+    queue_redraw()
+    await get_tree().create_timer(flash_duration).timeout
+    flash_active = false
+    queue_redraw()
+    await get_tree().create_timer(post_flash_delay).timeout
     if not is_instance_valid(body) or body.get("dead") == true:
         _reset()
         return
@@ -79,9 +88,11 @@ func _on_trigger_body_entered(body: Node2D) -> void:
     tween.tween_callback(_return_home)
 
 func strike_target(target: Vector2) -> void:
-    if not active or flying:
+    if not active or flying or hitbox == null:
         return
     flying = true
+    visible = true
+    hitbox.monitoring = true
     var tween := create_tween()
     tween.tween_property(self, "global_position", target, flight_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
     tween.tween_callback(_return_home)
@@ -92,16 +103,11 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 
 func _return_home() -> void:
     hitbox.monitoring = false
+    # A hammer attack is one-way: it leaves the scene and never returns by itself.
     visible = false
-    await get_tree().create_timer(0.12).timeout
-    global_position = home_position
-    visible = true
-    var tween := create_tween()
-    tween.tween_interval(return_time)
-    tween.tween_callback(func() -> void:
-        _reset()
-        strike_completed.emit()
-    )
+    armed = false
+    flying = false
+    strike_completed.emit()
 
 func _reset() -> void:
     hitbox.monitoring = false
@@ -109,4 +115,14 @@ func _reset() -> void:
     rotation = _direction_rotation()
     armed = false
     flying = false
+    flash_active = false
     visible = true
+
+func _draw() -> void:
+    if not flash_active:
+        return
+    var bolt := PackedVector2Array([
+        Vector2(-8, -54), Vector2(2, -35), Vector2(-4, -35), Vector2(8, -12),
+    ])
+    draw_polyline(bolt, Color("ffffff"), 5.0, true)
+    draw_polyline(bolt, Color("79d8ff"), 2.0, true)

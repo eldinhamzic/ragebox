@@ -31,9 +31,10 @@ func _process(_delta: float) -> void:
         hammer_target_x = p.global_position.x
         lightning = true
         queue_redraw()
-        await get_tree().create_timer(0.1).timeout
+        await get_tree().create_timer(0.5).timeout
         lightning = false
         queue_redraw()
+        await get_tree().create_timer(0.6).timeout
         $Hammer.visible = true
         # The hammer hitbox is above its target point; aim into the floor so
         # the hammer head visibly embeds in the ground on impact.
