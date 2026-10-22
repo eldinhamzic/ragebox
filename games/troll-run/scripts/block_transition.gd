@@ -1,38 +1,38 @@
 extends Control
 
-const NEXT_BLOCK_PATH := "res://scenes/blocks/block02/Level01.tscn"
-
 func _ready() -> void:
+    var block := GameState.current_block + 1
+    var next_block := block + 1
+    var center := CenterContainer.new()
+    center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    add_child(center)
+    var column := VBoxContainer.new()
+    column.custom_minimum_size = Vector2(360, 0)
+    column.add_theme_constant_override("separation", 20)
+    center.add_child(column)
     var title := Label.new()
-    title.text = "BLOK 1 ZAVRŠEN"
-    title.position = Vector2(280, 150)
-    title.size = Vector2(400, 60)
+    title.text = "BLOK %d ZAVRŠEN" % block
     title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    title.add_theme_font_size_override("font_size", 30)
-    title.add_theme_color_override("font_color", Color("ffffff"))
-    add_child(title)
-
-    var subtitle := Label.new()
-    subtitle.text = "Spreman za unutrašnjost?"
-    subtitle.position = Vector2(280, 225)
-    subtitle.size = Vector2(400, 36)
-    subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-    subtitle.add_theme_font_size_override("font_size", 18)
-    subtitle.add_theme_color_override("font_color", Color("b8b8b8"))
-    add_child(subtitle)
-
-    var continue_button := Button.new()
-    continue_button.text = "NASTAVI DALJE"
-    continue_button.position = Vector2(350, 305)
-    continue_button.size = Vector2(260, 64)
-    continue_button.add_theme_font_size_override("font_size", 20)
-    continue_button.pressed.connect(_continue_to_block_two)
-    add_child(continue_button)
+    title.add_theme_font_size_override("font_size", 34)
+    column.add_child(title)
+    if next_block <= GameState.BLOCK_STARTS.size():
+        var next := Button.new()
+        next.text = "NASTAVI — BLOK %d" % next_block
+        next.custom_minimum_size.y = 58
+        next.pressed.connect(func() -> void:
+            GameState.start_level(next_block - 1, 0, GameState.BLOCK_STARTS[next_block - 1])
+        )
+        column.add_child(next)
+    else:
+        var completed := Label.new()
+        completed.text = "Sva 30 nivoa završena!"
+        completed.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+        column.add_child(completed)
+    var menu := Button.new()
+    menu.text = "GLAVNI MENI"
+    menu.custom_minimum_size.y = 54
+    menu.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/Main.tscn"))
+    column.add_child(menu)
 
 func _draw() -> void:
-    draw_rect(Rect2(Vector2.ZERO, size), Color("05070d"))
-    draw_rect(Rect2(0, 0, size.x, 16), Color("f5f5f5"))
-    draw_rect(Rect2(0, size.y - 16, size.x, 16), Color("f5f5f5"))
-
-func _continue_to_block_two() -> void:
-    GameState.start_level(1, 0, NEXT_BLOCK_PATH)
+    draw_rect(Rect2(Vector2.ZERO, size), Color("0b1427"))

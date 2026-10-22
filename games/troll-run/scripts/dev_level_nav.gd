@@ -21,6 +21,18 @@ const LEVELS := [
     "res://scenes/blocks/block03/Level04.tscn",
     "res://scenes/blocks/block03/Level05.tscn",
     "res://scenes/blocks/block03/Level06.tscn",
+    "res://scenes/blocks/block04/Level01.tscn",
+    "res://scenes/blocks/block04/Level02.tscn",
+    "res://scenes/blocks/block04/Level03.tscn",
+    "res://scenes/blocks/block04/Level04.tscn",
+    "res://scenes/blocks/block04/Level05.tscn",
+    "res://scenes/blocks/block04/Level06.tscn",
+    "res://scenes/blocks/block05/Level01.tscn",
+    "res://scenes/blocks/block05/Level02.tscn",
+    "res://scenes/blocks/block05/Level03.tscn",
+    "res://scenes/blocks/block05/Level04.tscn",
+    "res://scenes/blocks/block05/Level05.tscn",
+    "res://scenes/blocks/block05/Level06.tscn",
 ]
 
 var panel: PanelContainer
@@ -33,7 +45,7 @@ func _ready() -> void:
     get_tree().scene_changed.connect(_on_scene_changed)
     call_deferred("_refresh")
 
-func _on_scene_changed() -> void:
+func _on_scene_changed(_scene: Node) -> void:
     call_deferred("_refresh")
 
 func _refresh() -> void:
@@ -48,14 +60,14 @@ func _refresh() -> void:
     if panel == null:
         _build_panel()
     panel.visible = true
-    level_label.text = "DEV  %02d / %02d" % [index + 1, LEVELS.size()]
-    previous_button.disabled = index == 0
-    next_button.disabled = index == LEVELS.size() - 1
+    level_label.text = "TEST  %d.%d  (%02d/%02d)" % [index / 6 + 1, index % 6 + 1, index + 1, LEVELS.size()]
+    previous_button.disabled = index % 6 == 0
+    next_button.disabled = index % 6 == 5
 
 func _build_panel() -> void:
     panel = PanelContainer.new()
     panel.position = Vector2(8, 8)
-    panel.size = Vector2(360, 34)
+    panel.size = Vector2(430, 38)
     panel.mouse_filter = Control.MOUSE_FILTER_STOP
     add_child(panel)
 
@@ -64,7 +76,7 @@ func _build_panel() -> void:
     panel.add_child(row)
 
     level_label = Label.new()
-    level_label.custom_minimum_size = Vector2(78, 28)
+    level_label.custom_minimum_size = Vector2(140, 28)
     level_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
     row.add_child(level_label)
 
@@ -97,10 +109,10 @@ func _current_index() -> int:
 
 func _go_previous() -> void:
     var index := _current_index()
-    if index > 0:
-        get_tree().change_scene_to_file(LEVELS[index - 1])
+    if index >= 0 and index % 6 > 0:
+        GameState.start_level(index / 6, index % 6 - 1, LEVELS[index - 1])
 
 func _go_next() -> void:
     var index := _current_index()
-    if index >= 0 and index < LEVELS.size() - 1:
-        get_tree().change_scene_to_file(LEVELS[index + 1])
+    if index >= 0 and index % 6 < 5:
+        GameState.start_level(index / 6, index % 6 + 1, LEVELS[index + 1])
