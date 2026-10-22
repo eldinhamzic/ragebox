@@ -19,7 +19,7 @@ func _ready() -> void:
 func _add_button(action_name: String, symbol: String) -> void:
     var button := TouchScreenButton.new()
     button.action = action_name
-    button.visibility_mode = TouchScreenButton.VISIBILITY_TOUCHSCREEN_ONLY
+    button.visibility_mode = TouchScreenButton.VISIBILITY_ALWAYS
     button.texture_normal = _make_texture(symbol, false)
     button.texture_pressed = _make_texture(symbol, true)
     button.passby_press = true
