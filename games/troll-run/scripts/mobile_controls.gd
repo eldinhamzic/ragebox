@@ -6,7 +6,7 @@ const ACTIONS := ["move_left", "move_right", "crouch", "jump"]
 const ARROWS := ["◀", "▶", "▼", "▲"]
 var controls: Array[Button] = []
 var touches: Dictionary = {}
-var active := false
+var active := true
 
 func _ready() -> void:
     layer = 100
@@ -22,9 +22,9 @@ func _ready() -> void:
         add_child(button)
         controls.append(button)
     get_viewport().size_changed.connect(_layout)
-    get_tree().scene_changed.connect(_scene_changed)
     _layout()
-    call_deferred("_sync_scene")
+    for button in controls:
+        button.visible = true
 
 func _style_button(button: Button, pressed: bool) -> void:
     var style := StyleBoxFlat.new()
@@ -58,18 +58,6 @@ func _layout() -> void:
         controls[i].custom_minimum_size = Vector2.ZERO
         controls[i].add_theme_font_size_override("font_size", int(diameter * 0.48))
         controls[i].queue_redraw()
-
-func _scene_changed(_scene: Node) -> void:
-    call_deferred("_sync_scene")
-
-func _sync_scene() -> void:
-    var scene := get_tree().current_scene
-    var playing := scene != null and scene.scene_file_path != "res://scenes/Main.tscn"
-    if active and not playing:
-        _release_all()
-    active = playing
-    for button in controls:
-        button.visible = playing
 
 func _input(event: InputEvent) -> void:
     if not active:
