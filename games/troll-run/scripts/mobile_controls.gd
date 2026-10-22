@@ -86,7 +86,7 @@ func _input(event: InputEvent) -> void:
             _set_pointer(-1, event.position)
         else:
             _clear_pointer(-1)
-    elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT):
+    elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
         _set_pointer(-1, event.position)
 
 func _find_action(position: Vector2) -> String:
