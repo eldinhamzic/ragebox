@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - migration/godot-architecture
+      - master
   workflow_dispatch:
 
 permissions:
