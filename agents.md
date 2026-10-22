@@ -203,3 +203,17 @@ Cilj je da razvoj novih nivoa prvenstveno predstavlja kombinovanje i podešavanj
 - **Završetak:** Čekić nastavlja pravolinijsko kretanje, prolazi izvan scene i tada se uklanja/deaktivira preko postojećeg mehanizma.
 - **Konfiguracija nivoa:** Okidačka pozicija, početna pozicija izvan scene, tačka kroz koju čekić prolazi i kritično mjesto najave određuju se po nivou. Vrijeme najave, brzina i izgled ostaju zajednički.
 - **Integracija:** Prije izmjene koda pronaći postojeći čekić i munju te minimalno prilagoditi njihove implementacije. Ne duplicirati element i ne mijenjati druge nivoe. Testirati aktivaciju, reset, putanju, koliziju i prikaz munje.
+
+## 14. Klavir — obavezna definicija elementa
+
+- **Identitet i izgled:** Koristiti postojeći element klavira bez promjene vizuelnog izgleda i bez kreiranja duplikata.
+- **Aktivacija:** Način aktivacije određuje konfiguracija nivoa: igrač dolazi do definisane pozicije, aktivira postojeće dugme ili drugi okidač povezan s klavirom. Ne mijenjati ponašanje samih dugmadi ili ostalih okidača.
+- **Početna pozicija:** Unaprijed definisana u nivou; klavir ne prati igrača.
+- **Putanja:** Pada vertikalno sa zadate pozicije.
+- **Brzina:** Jedna, ista brzina pada u svim nivoima. Zadržati postojeću vrijednost brzine nakon provjere implementacije; ne izmišljati numeričku vrijednost.
+- **Kolizija:** Dodir klavira i igrača usmrćuje igrača preko postojećeg sistema smrti.
+- **Nakon pada:** Klavir ostaje na podlozi.
+- **Ponavljanje:** Jedan pad po pokušaju nivoa; nakon ponovnog pokretanja nivoa vraća se u početno stanje i ponovo se može aktivirati.
+- **Upozorenje:** Nema zasebnog zvučnog ili vizuelnog upozorenja neposredno prije pada klavira. Eventualni zvuk na početku nivoa nije dio najave pada.
+- **Konfiguracija nivoa:** Odrediti poziciju klavira, tip i vezu okidača; zajednički izgled, brzina i osnovno ponašanje ostaju nepromijenjeni.
+- **Integracija i provjera:** Pronaći postojeću implementaciju, napraviti samo potrebne promjene te provjeriti koliziju, jednokratnost, reset, vertikalan pad i ostajanje na podlozi. Ne mijenjati druge nivoe bez zahtjeva.
