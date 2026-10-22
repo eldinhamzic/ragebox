@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/blocks/extra_levels.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2"]
+
+[ext_resource type="PackedScene" path="res://scenes/props/IndoorLift.tscn" id="3"]
 
 [node name="Level06" type="Node2D"]
 script = ExtResource("1")
@@ -11,3 +13,7 @@ final_level = true
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(34, 450)
+
+[node name="ExitLift" parent="." instance=ExtResource("3")]
+position = Vector2(900, 450)
+indoor_style = false
