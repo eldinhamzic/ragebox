@@ -303,7 +303,6 @@ func _draw_player_sprite() -> void:
 	var source := Rect2(frame_width * frame, 0.0, frame_width, PLAYER_SPRITE_SHEET.get_height())
 	# The sprite is rendered at the same compact footprint as the original art.
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2(facing, 1.0))
-	draw_set_texture_filter(CanvasItem.TEXTURE_FILTER_NEAREST)
 	draw_texture_rect_region(
 		PLAYER_SPRITE_SHEET,
 		Rect2(-30.0, -58.0, 60.0, 68.0),
@@ -312,5 +311,4 @@ func _draw_player_sprite() -> void:
 		false,
 		false
 	)
-	draw_set_texture_filter(CanvasItem.TEXTURE_FILTER_INHERIT)
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
