@@ -45,6 +45,6 @@ func restart_block() -> void:
     changing_scene = false
 
 func complete_block() -> void:
-    unlocked_blocks = maxi(unlocked_blocks, current_block + 2)
+    unlocked_blocks = mini(BLOCK_STARTS.size(), maxi(unlocked_blocks, current_block + 2))
     changing_scene = false
     get_tree().change_scene_to_file("res://scenes/BlockTransition.tscn")
