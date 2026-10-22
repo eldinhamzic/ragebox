@@ -1,0 +1,88 @@
+name: Deploy Troll Run to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.7 and Web export templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          GODOT_VERSION="4.7-stable"
+          curl -fL --retry 3 -o /tmp/godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+          unzip -q /tmp/godot.zip -d /tmp
+          sudo install -m 755 "/tmp/Godot_v${GODOT_VERSION}_linux.x86_64" /usr/local/bin/godot
+          curl -fL --retry 3 -o /tmp/templates.tpz "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          mkdir -p "$HOME/.local/share/godot/export_templates/4.7.stable"
+          unzip -q /tmp/templates.tpz -d /tmp/godot-export-templates
+          cp /tmp/godot-export-templates/templates/* "$HOME/.local/share/godot/export_templates/4.7.stable/"
+      - name: Export Troll Run for Web
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd games/troll-run
+          cat > export_presets.cfg <<'PRESET'
+          [preset.0]
+          name="Web"
+          platform="Web"
+          runnable=true
+          advanced_options=false
+          dedicated_server=false
+          custom_features=""
+          export_filter="all_resources"
+          include_filter=""
+          exclude_filter=""
+          export_path="../../site/index.html"
+          encryption_include_filters=""
+          encryption_exclude_filters=""
+          encrypt_pck=false
+          encrypt_directory=false
+
+          [preset.0.options]
+          custom_template/debug=""
+          custom_template/release=""
+          variant/extensions_support=false
+          variant/thread_support=false
+          html/export_icon=true
+          html/custom_html_shell=""
+          html/head_include=""
+          html/canvas_resize_policy=2
+          html/focus_canvas_on_start=true
+          html/experimental_virtual_keyboard=false
+          progressive_web_app/enabled=false
+          PRESET
+          mkdir -p ../../site
+          godot --headless --editor --path . --import
+          godot --headless --path . --export-release "Web" ../../site/index.html
+          test -s ../../site/index.html
+          touch ../../site/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

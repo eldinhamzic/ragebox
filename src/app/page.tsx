@@ -3,7 +3,7 @@ import { AppShell } from '@/components/AppShell';
 
 const games = [
   { href: '/precision', title: 'IZAZOVI', subtitle: 'Preciznost pod pritiskom.', color: 'from-cyan-400/20 to-blue-900/20' },
-  { href: '/troll-run', title: 'TROLL RUN', subtitle: 'Trust nothing.', color: 'from-fuchsia-400/20 to-red-900/20' },
+  { href: 'https://eldinhamzic.github.io/ragebox/', title: 'TROLL RUN', subtitle: 'Trust nothing.', color: 'from-fuchsia-400/20 to-red-900/20' },
 ];
 
 export default function Home() {

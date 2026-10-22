@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/blocks/block01/level06.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/props/IndoorLift.tscn" id="3_lift"]
+[ext_resource type="PackedScene" path="res://scenes/props/TripleSpikes.tscn" id="4_spikes"]
+
+[node name="Level06" type="Node2D"]
+script = ExtResource("1_level")
+background_style = "Day"
+next_level_path = "res://scenes/BlockTransition.tscn"
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(24, 450)
+
+[node name="ExitLift" parent="." instance=ExtResource("3_lift")]
+position = Vector2(900, 450)
+indoor_style = false
+
+[node name="ThirdPlatformSpikes" parent="." instance=ExtResource("4_spikes")]
+position = Vector2(595, 370)
+spike_count = 3
+spacing = 18.0
+cycle_duration = 99.0
+hidden_until_trigger = true

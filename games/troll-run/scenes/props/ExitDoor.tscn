@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/exit_door.gd" id="1_door"]
+
+[node name="ExitDoor" type="Node2D"]
+script = ExtResource("1_door")
+metadata/_description = "Optional exit door. Player disappears on contact and the level receives the opened signal."

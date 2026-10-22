@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/blocks/block02/level05.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/props/TripleSpikes.tscn" id="3_spikes"]
+[ext_resource type="PackedScene" path="res://scenes/props/TerrainPiece.tscn" id="4_terrain"]
+
+[node name="Level05" type="Node2D"]
+script = ExtResource("1_level")
+next_level_path = "res://scenes/blocks/block02/Level06.tscn"
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(24, 450)
+[node name="PlatformSpikes" parent="." instance=ExtResource("3_spikes")]
+position = Vector2(600, 300)
+hidden_until_trigger = true
+cycle_duration = 99.0
+[node name="FallingPlatform" parent="." instance=ExtResource("4_terrain")]
+position = Vector2(660, 350)
+piece_type = "Brick Floor"
+piece_size = Vector2(80, 24)
+platform_behavior = "Drop On Touch"
+[node name="StablePlatform" parent="." instance=ExtResource("4_terrain")]
+position = Vector2(770, 350)
+piece_type = "Brick Floor"
+piece_size = Vector2(70, 24)
+[node name="FallingStartSection" parent="." instance=ExtResource("4_terrain")]
+position = Vector2(360, 450)
+piece_type = "Brick Floor"
+piece_size = Vector2(120, 90)
+platform_behavior = "Drop On Touch"

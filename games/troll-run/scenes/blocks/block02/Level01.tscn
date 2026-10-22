@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/blocks/block02/level01.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/props/TripleSpikes.tscn" id="4_spikes"]
+
+[node name="Level01" type="Node2D"]
+script = ExtResource("1_level")
+next_level_path = "res://scenes/blocks/block02/Level02.tscn"
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(24, 450)
+
+[node name="GroundSpikes" parent="." instance=ExtResource("4_spikes")]
+position = Vector2(400, 450)
+hidden_until_trigger = true
+cycle_duration = 99.0
+
+[node name="FlyingPlatformSpikes" parent="." instance=ExtResource("4_spikes")]
+position = Vector2(560, 330)
+hidden_until_trigger = true
+cycle_duration = 99.0

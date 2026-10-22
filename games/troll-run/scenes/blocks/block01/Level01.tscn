@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b3r463fbe5xu3"]
+
+[ext_resource type="Script" uid="uid://ceufcm7472uyf" path="res://scripts/blocks/block01/level01.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+
+[node name="Level01" type="Node2D" unique_id=1615879631]
+position = Vector2(4, 0)
+script = ExtResource("1_level")
+background_style = "Day"
+next_level_path = "res://scenes/blocks/block01/Level02.tscn"
+
+[node name="Player" parent="." unique_id=308074334 instance=ExtResource("2_player")]
+position = Vector2(24, 450)

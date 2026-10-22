@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://47wynylyx6s5"]
+
+[ext_resource type="PackedScene" path="res://scenes/props/Sledgehammer.tscn" id="1_hammer"]
+[ext_resource type="PackedScene" path="res://scenes/props/Piano.tscn" id="2_piano"]
+[ext_resource type="PackedScene" path="res://scenes/props/GroundChunk.tscn" id="3_ground"]
+[ext_resource type="PackedScene" path="res://scenes/props/BrickFloorChunk.tscn" id="4_brick"]
+[ext_resource type="PackedScene" path="res://scenes/props/OutdoorWaterGap.tscn" id="5_water"]
+[ext_resource type="PackedScene" path="res://scenes/props/IndoorBlackGap.tscn" id="6_black"]
+[ext_resource type="PackedScene" path="res://scenes/props/IndoorStairs.tscn" id="7_indoor_stairs"]
+[ext_resource type="PackedScene" path="res://scenes/props/OutdoorStairs.tscn" id="8_outdoor_stairs"]
+[ext_resource type="PackedScene" path="res://scenes/props/RedButton.tscn" id="9_button"]
+[ext_resource type="PackedScene" path="res://scenes/props/JumpSpring.tscn" id="10_spring"]
+[ext_resource type="PackedScene" path="res://scenes/props/SlopePlatform.tscn" id="11_slope"]
+[ext_resource type="PackedScene" path="res://scenes/props/Fly.tscn" id="12_fly"]
+[ext_resource type="PackedScene" path="res://scenes/props/Dragon.tscn" id="13_dragon"]
+[ext_resource type="PackedScene" path="res://scenes/props/FlyingHammer.tscn" id="14_flying_hammer"]
+
+[node name="PropsShowcase" type="Node2D" unique_id=863776501]
+
+[node name="Sledgehammer" parent="." unique_id=38941698 instance=ExtResource("1_hammer")]
+position = Vector2(190, 150)
+
+[node name="Piano" parent="." unique_id=1357225861 instance=ExtResource("2_piano")]
+position = Vector2(570, 190)
+scale = Vector2(0.9, 0.9)
+
+[node name="GroundChunk" parent="." unique_id=2000541805 instance=ExtResource("3_ground")]
+position = Vector2(60, 340)
+
+[node name="BrickFloorChunk" parent="." unique_id=1015491974 instance=ExtResource("4_brick")]
+position = Vector2(270, 394)
+
+[node name="OutdoorWaterGap" parent="." unique_id=968103822 instance=ExtResource("5_water")]
+position = Vector2(470, 340)
+
+[node name="IndoorBlackGap" parent="." unique_id=357108801 instance=ExtResource("6_black")]
+position = Vector2(680, 340)
+
+[node name="IndoorStairs" parent="." unique_id=1088985290 instance=ExtResource("7_indoor_stairs")]
+position = Vector2(250, 220)
+
+[node name="OutdoorStairs" parent="." unique_id=1896930506 instance=ExtResource("8_outdoor_stairs")]
+position = Vector2(700, 220)
+
+[node name="RedButton" parent="." unique_id=337605893 instance=ExtResource("9_button")]
+position = Vector2(210, 470)
+
+[node name="JumpSpring" parent="." unique_id=1071641808 instance=ExtResource("10_spring")]
+position = Vector2(320, 470)
+
+[node name="SlopePlatform" parent="." unique_id=1873072286 instance=ExtResource("11_slope")]
+position = Vector2(400, 300)
+
+[node name="Fly" parent="." unique_id=529288958 instance=ExtResource("12_fly")]
+position = Vector2(563, 90)
+
+[node name="Dragon" parent="." unique_id=1877828391 instance=ExtResource("13_dragon")]
+position = Vector2(760, 130)
+
+[node name="FlyingHammer" parent="." instance=ExtResource("14_flying_hammer")]
+position = Vector2(860, 190)

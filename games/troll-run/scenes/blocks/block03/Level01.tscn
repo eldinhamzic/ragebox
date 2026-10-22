@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3]
+[ext_resource type="Script" path="res://scripts/blocks/block03/level01.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/props/TripleSpikes.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/props/FlyingHammer.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/props/TerrainPiece.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/props/FallingStoneBridge.tscn" id="6"]
+[node name="Level01" type="Node2D"]
+script = ExtResource("1")
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(24, 450)
+[node name="StartGround" parent="." instance=ExtResource("5")]
+position = Vector2(0, 450)
+piece_type = "Ground"
+piece_size = Vector2(300, 90)
+ground_palette = "Block 3"
+[node name="EndGround" parent="." instance=ExtResource("5")]
+position = Vector2(780, 450)
+piece_type = "Ground"
+piece_size = Vector2(180, 90)
+ground_palette = "Block 3"
+[node name="Spikes" parent="." instance=ExtResource("3")]
+position = Vector2(170, 450)
+hidden_until_trigger = true
+spike_count = 3
+cycle_duration = 99.0
+[node name="Hammer" parent="." instance=ExtResource("4")]
+position = Vector2(1100, 450)
+attack_direction = "From Right"
+flight_time = 1.0
+return_time = 0.0
+visible = false
+[node name="FallingGround" parent="." instance=ExtResource("5")]
+position = Vector2(300, 450)
+piece_type = "Ground"
+piece_size = Vector2(120, 90)
+ground_palette = "Block 3"
+platform_behavior = "Drop On Landing"
+[node name="FallingMiddleBridge" parent="." instance=ExtResource("6")]
+position = Vector2(420, 450)
+stone_count = 10
+stone_width = 36.0
+stone_height = 24.0
+collapse_start = 1
+collapse_end = 3
