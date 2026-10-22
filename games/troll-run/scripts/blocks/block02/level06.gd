@@ -97,10 +97,10 @@ func _on_exit_opened() -> void:
     if completed:
         return
     completed = true
-    if next_level_path != "":
-        get_tree().change_scene_to_file(next_level_path)
-    else:
+    if next_level_path == "" or next_level_path == "res://scenes/BlockTransition.tscn":
         GameState.complete_block()
+    else:
+        get_tree().change_scene_to_file(next_level_path)
 
 func _on_player_died() -> void:
     await get_tree().create_timer(0.8).timeout
