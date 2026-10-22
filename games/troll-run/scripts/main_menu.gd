@@ -107,7 +107,7 @@ func _build_menu() -> void:
     add_child(center)
 
     var column := VBoxContainer.new()
-    column.custom_minimum_size = Vector2(560, 0)
+    column.custom_minimum_size = Vector2(440, 0)
     column.add_theme_constant_override("separation", 12)
     center.add_child(column)
 
@@ -165,11 +165,15 @@ func _show_blocks() -> void:
 func _show_levels(block_index: int) -> void:
     _clear_children(level_panel)
     var label := Label.new()
-    label.text = "BLOK %d — IZABERI NIVO" % (block_index + 1)
+    label.text = "TEST NIVOA — BLOK %d" % (block_index + 1)
     label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     label.add_theme_font_size_override("font_size", 22)
     level_panel.add_child(label)
 
+    _clear_children(block_panel)
+    var play := _make_button("▶ IGRAJ BLOK %d OD POČETKA" % (block_index + 1), false)
+    play.pressed.connect(_start_level.bind(block_index, 0, GameState.BLOCK_STARTS[block_index]))
+    block_panel.add_child(play)
     var paths: Array = [LEVEL_PATHS, BLOCK2_LEVEL_PATHS, BLOCK3_LEVEL_PATHS, BLOCK4_LEVEL_PATHS, BLOCK5_LEVEL_PATHS][block_index]
     var names: Array = [LEVEL_NAMES, BLOCK2_LEVEL_NAMES, BLOCK3_LEVEL_NAMES, BLOCK4_LEVEL_NAMES, BLOCK5_LEVEL_NAMES][block_index]
     for index in range(paths.size()):
@@ -178,7 +182,10 @@ func _show_levels(block_index: int) -> void:
         level_panel.add_child(button)
 
     var back := _make_button("← Nazad na blokove", false)
-    back.pressed.connect(_show_blocks)
+    back.pressed.connect(func() -> void:
+        _clear_children(level_panel)
+        _show_blocks()
+    )
     level_panel.add_child(back)
 
 func _start_level(block_index: int, level_index: int, scene_path: String) -> void:
@@ -188,7 +195,7 @@ func _make_button(text_value: String, is_disabled: bool) -> Button:
     var button := Button.new()
     button.text = text_value
     button.disabled = is_disabled
-    button.custom_minimum_size = Vector2(560, 42)
+    button.custom_minimum_size = Vector2(440, 38)
     button.add_theme_font_size_override("font_size", 17)
     return button
 
