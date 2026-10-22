@@ -28,23 +28,23 @@ func _ready() -> void:
 
 func _style_button(button: Button, pressed: bool) -> void:
     var style := StyleBoxFlat.new()
-    style.bg_color = Color("23618e", 0.98) if pressed else Color("15253a", 0.90)
-    style.border_color = Color("ffffff", 0.95)
-    style.set_border_width_all(3)
-    style.set_corner_radius_all(20)
-    style.shadow_color = Color(0, 0, 0, 0.35)
-    style.shadow_size = 5
+    style.bg_color = Color("23618e", 0.74) if pressed else Color("15253a", 0.38)
+    style.border_color = Color("ffffff", 0.68) if pressed else Color("ffffff", 0.40)
+    style.set_border_width_all(2)
+    style.set_corner_radius_all(14)
+    style.shadow_color = Color(0, 0, 0, 0.12)
+    style.shadow_size = 2
     for kind in ["normal", "hover", "pressed", "focus"]:
         button.add_theme_stylebox_override(kind, style)
 
 func _layout() -> void:
     var view := get_viewport().get_visible_rect().size
-    var diameter := clampf(minf(view.x * 0.115, view.y * 0.225), 64.0, 112.0)
-    var gap := maxf(10.0, diameter * 0.12)
-    var margin := maxf(12.0, diameter * 0.17)
+    var diameter := clampf(minf(view.x * 0.078, view.y * 0.16), 42.0, 76.0)
+    var gap := maxf(7.0, diameter * 0.10)
+    var margin := maxf(6.0, diameter * 0.12)
     # Two groups stay apart even on narrow screens.
     if diameter * 4.0 + gap * 2.0 + margin * 2.0 > view.x:
-        diameter = maxf(38.0, (view.x - 2.0 * margin - 2.0 * gap) / 4.0)
+        diameter = maxf(32.0, (view.x - 2.0 * margin - 2.0 * gap) / 4.0)
     var y := view.y - diameter - margin
     var positions := [
         Vector2(margin, y),
@@ -56,7 +56,7 @@ func _layout() -> void:
         controls[i].position = positions[i]
         controls[i].size = Vector2(diameter, diameter)
         controls[i].custom_minimum_size = Vector2.ZERO
-        controls[i].add_theme_font_size_override("font_size", int(diameter * 0.48))
+        controls[i].add_theme_font_size_override("font_size", int(diameter * 0.43))
         controls[i].queue_redraw()
 
 func _input(event: InputEvent) -> void:
