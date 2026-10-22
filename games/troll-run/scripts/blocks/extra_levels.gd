@@ -26,6 +26,8 @@ func _ready() -> void:
         for rect in platforms:
             _add_collision(rect)
         $Player.died.connect(_on_died)
+        if final_level and has_node("ExitLift"):
+            $ExitLift.opened.connect(_finish_block)
     queue_redraw()
 
 func _process(_delta: float) -> void:
@@ -38,12 +40,16 @@ func _process(_delta: float) -> void:
         if trap.has_point(p.global_position + Vector2(0, -16)):
             p.die()
             return
-    if p.global_position.x >= FINISH.position.x:
+    if not final_level and p.global_position.x >= FINISH.position.x:
         completed = true
-        if final_level:
-            GameState.complete_block()
-        elif next_level_path != "":
+        if next_level_path != "":
             get_tree().change_scene_to_file(next_level_path)
+
+func _finish_block() -> void:
+    if completed:
+        return
+    completed = true
+    GameState.complete_block()
 
 func _layout() -> Array:
     var key := block_number * 10 + level_number
