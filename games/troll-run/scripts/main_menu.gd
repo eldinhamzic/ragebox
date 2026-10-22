@@ -54,6 +54,42 @@ const BLOCK3_LEVEL_NAMES := [
     "Nivo 6  ·  Lift na kraju bloka",
 ]
 
+const BLOCK4_LEVEL_PATHS := [
+    "res://scenes/blocks/block04/Level01.tscn",
+    "res://scenes/blocks/block04/Level02.tscn",
+    "res://scenes/blocks/block04/Level03.tscn",
+    "res://scenes/blocks/block04/Level04.tscn",
+    "res://scenes/blocks/block04/Level05.tscn",
+    "res://scenes/blocks/block04/Level06.tscn",
+]
+
+const BLOCK4_LEVEL_NAMES := [
+    "Nivo 1  ·  Uski prolaz",
+    "Nivo 2  ·  Dvostruki skok",
+    "Nivo 3  ·  Visoki stepenici",
+    "Nivo 4  ·  Rupa i klopka",
+    "Nivo 5  ·  Cik-cak platforme",
+    "Nivo 6  ·  Finalni prelaz",
+]
+
+const BLOCK5_LEVEL_PATHS := [
+    "res://scenes/blocks/block05/Level01.tscn",
+    "res://scenes/blocks/block05/Level02.tscn",
+    "res://scenes/blocks/block05/Level03.tscn",
+    "res://scenes/blocks/block05/Level04.tscn",
+    "res://scenes/blocks/block05/Level05.tscn",
+    "res://scenes/blocks/block05/Level06.tscn",
+]
+
+const BLOCK5_LEVEL_NAMES := [
+    "Nivo 1  ·  Prvi preskok",
+    "Nivo 2  ·  Platforme u visinu",
+    "Nivo 3  ·  Lažni sigurni put",
+    "Nivo 4  ·  Niski skok",
+    "Nivo 5  ·  Veliki povratak",
+    "Nivo 6  ·  Finale petog bloka",
+]
+
 var level_panel: VBoxContainer
 var block_panel: VBoxContainer
 
@@ -118,6 +154,13 @@ func _show_blocks() -> void:
     block_three.pressed.connect(_show_levels.bind(2))
     block_panel.add_child(block_three)
 
+    var block_4 := _make_button("BLOK 4   ·   USKI PROLAZI", false)
+    block_4.pressed.connect(_show_levels.bind(3))
+    block_panel.add_child(block_4)
+    var block_5 := _make_button("BLOK 5   ·   ZAVRŠNI IZAZOVI", false)
+    block_5.pressed.connect(_show_levels.bind(4))
+    block_panel.add_child(block_5)
+
 
 func _show_levels(block_index: int) -> void:
     _clear_children(level_panel)
@@ -127,8 +170,8 @@ func _show_levels(block_index: int) -> void:
     label.add_theme_font_size_override("font_size", 22)
     level_panel.add_child(label)
 
-    var paths: Array = LEVEL_PATHS if block_index == 0 else (BLOCK2_LEVEL_PATHS if block_index == 1 else BLOCK3_LEVEL_PATHS)
-    var names: Array = LEVEL_NAMES if block_index == 0 else (BLOCK2_LEVEL_NAMES if block_index == 1 else BLOCK3_LEVEL_NAMES)
+    var paths: Array = [LEVEL_PATHS, BLOCK2_LEVEL_PATHS, BLOCK3_LEVEL_PATHS, BLOCK4_LEVEL_PATHS, BLOCK5_LEVEL_PATHS][block_index]
+    var names: Array = [LEVEL_NAMES, BLOCK2_LEVEL_NAMES, BLOCK3_LEVEL_NAMES, BLOCK4_LEVEL_NAMES, BLOCK5_LEVEL_NAMES][block_index]
     for index in range(paths.size()):
         var button := _make_button(names[index], false)
         button.pressed.connect(_start_level.bind(block_index, index, paths[index]))
