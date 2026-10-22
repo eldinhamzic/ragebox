@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; --ink: #f4f7fb; --muted: #b8c3d2; --panel: #182238; --line: #3c4b67; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; overflow-x: hidden; background: #0b1120; color: var(--ink); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+.game-canvas { width: 100%; image-rendering: pixelated; }
+.game-canvas canvas { width: 100% !important; height: auto !important; aspect-ratio: 3 / 2; }
+@media (max-width: 640px) {
+  .game-canvas canvas { min-height: 270px; object-fit: contain; }
+}
+.arcade-grid { background-color: #0b1120; background-image: linear-gradient(rgba(116,150,190,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(116,150,190,.10) 1px, transparent 1px); background-size: 32px 32px; }
+button, a { font-weight: 700; }

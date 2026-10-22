@@ -143,7 +143,7 @@ func _start_falling_ground() -> void:
 	if falling_started:
 		return
 	falling_started = true
-	await get_tree().create_timer(0.12).timeout
+	await get_tree().create_timer(0.5).timeout
 	if not is_inside_tree():
 		return
 	falling_collision.disabled = true

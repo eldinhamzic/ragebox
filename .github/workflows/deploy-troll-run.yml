@@ -3,7 +3,7 @@ name: Deploy Troll Run to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - migration/godot-architecture
   workflow_dispatch:
 
 permissions:

@@ -6,7 +6,6 @@ const W := 960.0
 const H := 540.0
 const GROUND := Rect2(0, 450, 480, 90)
 const END_GROUND := Rect2(780, 450, 180, 90)
-var completed := false
 var hammer_started := false
 var lightning := false
 var spikes_started := false
@@ -21,26 +20,21 @@ func _ready() -> void:
     queue_redraw()
 
 func _process(_delta: float) -> void:
-    if Engine.is_editor_hint() or completed:
+    if Engine.is_editor_hint() or hammer_started:
         return
     var p: RageboxPlayer = $Player
     if not spikes_started and p.global_position.x >= 145.0:
         spikes_started = true
         $Spikes.activate_now()
-    if p.global_position.x >= 820.0 and not p.dead:
-        completed = true
-        get_tree().change_scene_to_file(next_level_path)
-        return
-    if not hammer_started and p.global_position.x >= 330.0:
+    if p.global_position.x >= 330.0:
         hammer_started = true
         hammer_target_x = p.global_position.x
         lightning = true
         queue_redraw()
-        await get_tree().create_timer(0.1).timeout
-        if not is_inside_tree():
-            return
+        await get_tree().create_timer(0.5).timeout
         lightning = false
         queue_redraw()
+        await get_tree().create_timer(0.6).timeout
         $Hammer.visible = true
         # The hammer hitbox is above its target point; aim into the floor so
         # the hammer head visibly embeds in the ground on impact.

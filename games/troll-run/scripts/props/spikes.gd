@@ -2,9 +2,9 @@
 class_name RageboxTripleSpikes
 extends Node2D
 
-## Three independent spikes. Each one reacts only to the player's own contact.
+## One hidden group of three spikes. Contact activates the complete group.
 
-@export_range(1, 3, 1) var spike_count := 3 : set = set_spike_count
+@export_range(3, 3, 1) var spike_count := 3 : set = set_spike_count
 @export var spacing := 18.0 : set = set_spacing
 @export var spike_height := 34.0 : set = set_spike_height
 @export var cycle_duration := 3.2 : set = set_cycle_duration
@@ -80,7 +80,9 @@ func _trigger_spikes_under_player() -> void:
             continue
         var spike_x := global_position.x + (index - (spike_count - 1) / 2.0) * spacing
         if absf(player.global_position.x - spike_x) <= 12.0 and player.velocity.y >= 0.0:
-            triggered[index] = true
+            for group_index in range(spike_count):
+                triggered[group_index] = true
+            return
 
 func _animate_spikes(delta: float) -> void:
     if not hidden_until_trigger and not manual_active:
@@ -102,7 +104,7 @@ func _check_player_hit() -> void:
             return
 
 func set_spike_count(value: int) -> void:
-    spike_count = clampi(value, 1, 3)
+    spike_count = 3
     _build_collision()
     queue_redraw()
 

@@ -27,7 +27,7 @@ func _ready() -> void:
 		var cs := CollisionShape2D.new()
 		var shape := CircleShape2D.new(); shape.radius = 18.0; cs.shape = shape
 		fly_area.add_child(cs); fly_area.body_entered.connect(_fly_hit); add_child(fly_area)
-		fly_wait_left = randf_range(2.0, 10.0)
+		fly_wait_left = randf_range(2.0, 8.0)
 	queue_redraw()
 
 func _process(delta: float) -> void:
@@ -38,16 +38,12 @@ func _process(delta: float) -> void:
 	if $Player.global_position.x >= FINISH.position.x: completed = true; get_tree().change_scene_to_file(next_level_path)
 
 func _fly_hit(body: Node2D) -> void:
-	if fly_state != "dash" or body != $Player or body.dead or body.falling_into_hole:
+	if fly_state != "dash" or not body.has_method("die") or body.get("dead") == true:
 		return
-	# A hit pushes the player 8% of the level width in the fly\'s dash direction.
-	var push_direction := signf(dash_velocity.x)
-	if is_zero_approx(push_direction):
-		push_direction = 1.0 if body.global_position.x >= fly_area.global_position.x else -1.0
-	body.global_position.x = clampf(body.global_position.x + push_direction * W * 0.08, 0.0, W)
-	# Reset the attack so a single collision cannot apply multiple hits.
-	fly_state = "flying"
-	fly_wait_left = randf_range(2.0, 10.0)
+	var away := (body.global_position - fly_area.position).normalized()
+	var distance := fly_area.position.distance_to(body.global_position)
+	body.global_position = fly_area.position + away * distance * 1.08
+	body.velocity = away * 160.0
 
 func _update_fly(delta: float) -> void:
 	if fly_state == "flying":
@@ -56,7 +52,7 @@ func _update_fly(delta: float) -> void:
 		fly_area.position = fly_origin + Vector2(cos(fly_angle) * 440.0, sin(fly_angle * 2.0) * 110.0)
 		if fly_wait_left <= 0.0:
 			fly_state = "paused"
-			fly_pause_left = 0.5
+			fly_pause_left = 1.0
 		return
 
 	if fly_state == "paused":
@@ -70,7 +66,7 @@ func _update_fly(delta: float) -> void:
 	fly_area.position += dash_velocity * delta
 	if fly_area.position.x < -40.0 or fly_area.position.x > W + 40.0 or fly_area.position.y < -40.0 or fly_area.position.y > H + 40.0:
 		fly_state = "flying"
-		fly_wait_left = randf_range(2.0, 10.0)
+		fly_wait_left = randf_range(2.0, 8.0)
 
 func _add_collision(rect: Rect2, name: String) -> void:
 	var b := StaticBody2D.new(); b.name = name; b.position = rect.position + rect.size / 2.0

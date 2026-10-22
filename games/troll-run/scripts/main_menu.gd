@@ -54,42 +54,6 @@ const BLOCK3_LEVEL_NAMES := [
     "Nivo 6  ·  Lift na kraju bloka",
 ]
 
-const BLOCK4_LEVEL_PATHS := [
-    "res://scenes/blocks/block04/Level01.tscn",
-    "res://scenes/blocks/block04/Level02.tscn",
-    "res://scenes/blocks/block04/Level03.tscn",
-    "res://scenes/blocks/block04/Level04.tscn",
-    "res://scenes/blocks/block04/Level05.tscn",
-    "res://scenes/blocks/block04/Level06.tscn",
-]
-
-const BLOCK4_LEVEL_NAMES := [
-    "Nivo 1  ·  Uski prolaz",
-    "Nivo 2  ·  Dvostruki skok",
-    "Nivo 3  ·  Visoki stepenici",
-    "Nivo 4  ·  Rupa i klopka",
-    "Nivo 5  ·  Cik-cak platforme",
-    "Nivo 6  ·  Finalni prelaz",
-]
-
-const BLOCK5_LEVEL_PATHS := [
-    "res://scenes/blocks/block05/Level01.tscn",
-    "res://scenes/blocks/block05/Level02.tscn",
-    "res://scenes/blocks/block05/Level03.tscn",
-    "res://scenes/blocks/block05/Level04.tscn",
-    "res://scenes/blocks/block05/Level05.tscn",
-    "res://scenes/blocks/block05/Level06.tscn",
-]
-
-const BLOCK5_LEVEL_NAMES := [
-    "Nivo 1  ·  Prvi preskok",
-    "Nivo 2  ·  Platforme u visinu",
-    "Nivo 3  ·  Lažni sigurni put",
-    "Nivo 4  ·  Niski skok",
-    "Nivo 5  ·  Veliki povratak",
-    "Nivo 6  ·  Finale petog bloka",
-]
-
 var level_panel: VBoxContainer
 var block_panel: VBoxContainer
 
@@ -107,7 +71,7 @@ func _build_menu() -> void:
     add_child(center)
 
     var column := VBoxContainer.new()
-    column.custom_minimum_size = Vector2(440, 0)
+    column.custom_minimum_size = Vector2(560, 0)
     column.add_theme_constant_override("separation", 12)
     center.add_child(column)
 
@@ -154,38 +118,24 @@ func _show_blocks() -> void:
     block_three.pressed.connect(_show_levels.bind(2))
     block_panel.add_child(block_three)
 
-    var block_4 := _make_button("BLOK 4   ·   USKI PROLAZI", false)
-    block_4.pressed.connect(_show_levels.bind(3))
-    block_panel.add_child(block_4)
-    var block_5 := _make_button("BLOK 5   ·   ZAVRŠNI IZAZOVI", false)
-    block_5.pressed.connect(_show_levels.bind(4))
-    block_panel.add_child(block_5)
-
 
 func _show_levels(block_index: int) -> void:
     _clear_children(level_panel)
     var label := Label.new()
-    label.text = "TEST NIVOA — BLOK %d" % (block_index + 1)
+    label.text = "BLOK %d — IZABERI NIVO" % (block_index + 1)
     label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     label.add_theme_font_size_override("font_size", 22)
     level_panel.add_child(label)
 
-    _clear_children(block_panel)
-    var play := _make_button("▶ IGRAJ BLOK %d OD POČETKA" % (block_index + 1), false)
-    play.pressed.connect(_start_level.bind(block_index, 0, GameState.BLOCK_STARTS[block_index]))
-    block_panel.add_child(play)
-    var paths: Array = [LEVEL_PATHS, BLOCK2_LEVEL_PATHS, BLOCK3_LEVEL_PATHS, BLOCK4_LEVEL_PATHS, BLOCK5_LEVEL_PATHS][block_index]
-    var names: Array = [LEVEL_NAMES, BLOCK2_LEVEL_NAMES, BLOCK3_LEVEL_NAMES, BLOCK4_LEVEL_NAMES, BLOCK5_LEVEL_NAMES][block_index]
+    var paths: Array = LEVEL_PATHS if block_index == 0 else (BLOCK2_LEVEL_PATHS if block_index == 1 else BLOCK3_LEVEL_PATHS)
+    var names: Array = LEVEL_NAMES if block_index == 0 else (BLOCK2_LEVEL_NAMES if block_index == 1 else BLOCK3_LEVEL_NAMES)
     for index in range(paths.size()):
         var button := _make_button(names[index], false)
         button.pressed.connect(_start_level.bind(block_index, index, paths[index]))
         level_panel.add_child(button)
 
     var back := _make_button("← Nazad na blokove", false)
-    back.pressed.connect(func() -> void:
-        _clear_children(level_panel)
-        _show_blocks()
-    )
+    back.pressed.connect(_show_blocks)
     level_panel.add_child(back)
 
 func _start_level(block_index: int, level_index: int, scene_path: String) -> void:
@@ -195,7 +145,7 @@ func _make_button(text_value: String, is_disabled: bool) -> Button:
     var button := Button.new()
     button.text = text_value
     button.disabled = is_disabled
-    button.custom_minimum_size = Vector2(440, 38)
+    button.custom_minimum_size = Vector2(560, 42)
     button.add_theme_font_size_override("font_size", 17)
     return button
 

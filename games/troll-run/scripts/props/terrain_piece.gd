@@ -101,7 +101,7 @@ func drop_now() -> void:
         return
     drop_started = true
     top_zone.monitoring = false
-    await get_tree().create_timer(0.12).timeout
+    await get_tree().create_timer(0.5).timeout
     if not is_inside_tree():
         return
     collision.disabled = true

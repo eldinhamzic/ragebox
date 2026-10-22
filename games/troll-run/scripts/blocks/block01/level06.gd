@@ -120,10 +120,10 @@ func _complete_level() -> void:
     if completed:
         return
     completed = true
-    if next_level_path == "" or next_level_path == "res://scenes/BlockTransition.tscn":
-        GameState.complete_block()
-    else:
+    if next_level_path != "":
         get_tree().change_scene_to_file(next_level_path)
+        return
+    GameState.complete_block()
 
 func _send_result(payload: Dictionary) -> void:
     if OS.has_feature("web"):

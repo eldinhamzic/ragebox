@@ -8,7 +8,7 @@ extends Node2D
 @export var stone_width := 36.0 : set = set_stone_width
 @export var stone_gap := 0.0 : set = set_stone_gap
 @export var stone_height := 24.0 : set = set_stone_height
-@export var fall_delay := 0.08
+@export var fall_delay := 0.3
 @export var fall_distance := 180.0
 @export var indoor_style := false
 @export var collapse_start := 0
@@ -53,7 +53,7 @@ func _process(_delta: float) -> void:
         var stone_start := index * (stone_width + stone_gap)
         var stone_end := stone_start + stone_width
         if local_x >= stone_start and local_x <= stone_end and local_y >= -6.0 and local_y <= 10.0:
-            _collapse_chain_from(index)
+            _collapse_single_stone(index)
             return
 
 func check_player_contact(player: RageboxPlayer) -> void:
@@ -68,7 +68,7 @@ func check_player_contact(player: RageboxPlayer) -> void:
             continue
         var stone_start := index * (stone_width + stone_gap)
         if local_x >= stone_start and local_x <= stone_start + stone_width:
-            _collapse_chain_from(index)
+            _collapse_single_stone(index)
             return
 
 func set_stone_count(value: int) -> void:
@@ -132,7 +132,7 @@ func _build_stones() -> void:
 func _on_stone_body_entered(body: Node2D, index: int) -> void:
     if index >= fallen.size() or fallen[index] or not body.has_method("die"):
         return
-    _collapse_chain_from(index)
+    _collapse_single_stone(index)
 
 func _collapse_chain_from(start_index: int) -> void:
     var first := maxi(start_index, collapse_start)
@@ -145,6 +145,15 @@ func _collapse_chain_from(start_index: int) -> void:
             await get_tree().create_timer(fall_delay).timeout
         if not is_inside_tree() or index >= stones.size():
             return
+        _collapse_stone(index)
+
+func _collapse_single_stone(index: int) -> void:
+    if index >= fallen.size() or fallen[index]:
+        return
+    fallen[index] = true
+    if fall_delay > 0.0:
+        await get_tree().create_timer(fall_delay).timeout
+    if is_inside_tree() and index < stones.size():
         _collapse_stone(index)
 
 func _collapse_stone(index: int) -> void:

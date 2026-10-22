@@ -17,6 +17,7 @@ signal died
 const COYOTE_TIME := 0.11
 const JUMP_BUFFER_TIME := 0.14
 const SHORT_HOP_MULTIPLIER := 0.45
+const PLAYER_SPRITE_SHEET := preload("res://assets/player-preview/player-sprite-sheet.png")
 
 var dead := false
 var falling_into_hole := false
@@ -240,6 +241,10 @@ func _death_color(hex_value: String) -> Color:
     return color
 
 func _draw() -> void:
+    if animation_state != "death":
+        _draw_player_sprite()
+        return
+
     var bob := sin(run_phase) * 2.0 if animation_state == "run" else 0.0
     var side := facing
     var ink := Color("24283a")
@@ -281,4 +286,30 @@ func _draw() -> void:
     draw_rect(Rect2((1 - step) * side, 5 + bob, 12 * side, 5), boot)
     draw_rect(Rect2(7 * side, arm_y, 6 * side, 12), ink)
     draw_rect(Rect2(9 * side, arm_y + 2, 5 * side, 8), cap)
+    draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+func _draw_player_sprite() -> void:
+    var frame := 0
+    if animation_state == "run":
+        frame = 1 + (int(floor(run_phase / PI)) % 2)
+    elif animation_state == "jump":
+        frame = 3
+    elif animation_state == "fall":
+        frame = 4
+    elif animation_state == "crouch":
+        frame = 5
+
+    var frame_width := PLAYER_SPRITE_SHEET.get_width() / 6.0
+    var source := Rect2(frame_width * frame, 0.0, frame_width, PLAYER_SPRITE_SHEET.get_height())
+    # The sprite is rendered at the same compact footprint as the original art.
+    draw_set_transform(Vector2.ZERO, 0.0, Vector2(facing, 1.0))
+    draw_texture_rect_region(
+        PLAYER_SPRITE_SHEET,
+        Rect2(-30.0, -58.0, 60.0, 68.0),
+        source,
+        Color.WHITE,
+        false,
+        false,
+        CanvasItem.TEXTURE_FILTER_NEAREST
+    )
     draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)

@@ -68,10 +68,13 @@ func _strike_first_platform() -> void:
     hammer_triggered = true
     lightning_visible = true
     queue_redraw()
-    await get_tree().create_timer(0.8).timeout
+    await get_tree().create_timer(0.5).timeout
     if not is_inside_tree():
         return
     lightning_visible = false
+    await get_tree().create_timer(0.6).timeout
+    if not is_inside_tree():
+        return
     $FlyingHammer.visible = true
     $FlyingHammer.strike_target(Vector2(PLATFORM_1.position.x + PLATFORM_1.size.x / 2.0, PLATFORM_1.position.y))
     await get_tree().create_timer(0.24).timeout
@@ -97,10 +100,10 @@ func _on_exit_opened() -> void:
     if completed:
         return
     completed = true
-    if next_level_path == "" or next_level_path == "res://scenes/BlockTransition.tscn":
-        GameState.complete_block()
-    else:
+    if next_level_path != "":
         get_tree().change_scene_to_file(next_level_path)
+    else:
+        GameState.complete_block()
 
 func _on_player_died() -> void:
     await get_tree().create_timer(0.8).timeout

@@ -110,7 +110,7 @@ func _on_drop_trigger_body_entered(body: Node2D) -> void:
     if body.global_position.y > TARGET_TOP + 14.0:
         return
     drop_started = true
-    await get_tree().create_timer(0.12).timeout
+    await get_tree().create_timer(0.5).timeout
     if not is_inside_tree():
         return
     drop_collision.disabled = true

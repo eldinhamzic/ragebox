@@ -1,5 +1,12 @@
 node_modules/
 .next/
 out/
-.env*
+**/.env
+**/.env.local
+frontend/public/games/*/data/
+frontend/public/games/*/*.wasm
+frontend/public/games/*/*.pck
+games/*/.godot/
+backend/dist/
+**/*.tsbuildinfo
 

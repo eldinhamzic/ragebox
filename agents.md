@@ -230,3 +230,46 @@ Cilj je da razvoj novih nivoa prvenstveno predstavlja kombinovanje i podešavanj
 - **Reset pri vraćanju:** Kada se igrač prema postojećim pravilima napredovanja vrati na raniji nivo (npr. na početak bloka), svi prethodno otkriveni šiljci resetuju se u skriveno stanje. Ne mijenjati postojeća pravila povratka.
 - **Konfiguracija nivoa:** Definisati položaj svakog šiljka i njegovu okidačku poziciju. Zajednička logika grupe, trajanje animacije, kolizija i pamćenje moraju ostati dosljedni.
 - **Integracija i provjera:** Pronaći i prilagoditi postojeći element bez dupliranja. Provjeriti nezavisne okidače, animaciju od 0,2 s, smrt pri dodiru, kumulativnu vidljivost pri ponavljanju istog nivoa i reset pri povratku na raniji nivo. Ne mijenjati druge elemente ni nivoe bez zahtjeva.
+
+## 16. Dodatne obavezne definicije elemenata
+
+Ove definicije dopunjuju prethodne odredbe i imaju prednost kada se razlikuju. Koristiti postojeće implementacije i ne praviti duple sisteme.
+
+### Muha
+
+- Leti između krajeva ekrana u obliku broja 8; tokom normalnog leta samo leti.
+- Nasumično miruje između 2 i 8 sekundi čekanja, zatim tačno 1 sekundu.
+- Po završetku mirovanja pamti smjer prema igraču i zalijeće se pravo brzinom 5 puta većom od normalne.
+- Pri pogotku ne ubija igrača: odbacuje ga 8% dalje od muhe. Odbacivanje postoji samo tokom zalijetanja.
+- Nakon pogotka ili promašaja nastavlja pravo, izlazi iz scene i zatim ponovo počinje normalan let.
+- Koristi postojeći izgled bez vizuelne izmjene.
+
+### Zmaj
+
+- Aktivira se samo u zoni definisanoj za konkretan nivo i funkcija se definiše po nivou.
+- Dolijeće lagano iza igrača s lijeve strane scene.
+- Kod hvatanja neizbježno uzima igrača, vraća ga na početak, to može uraditi jednom po nivou, a zatim izlazi desno.
+- Kod vatre ispaljuje jednu vatru; igrač je može izbjeći, a pogodak koristi postojeću smrt. Zmaj ograničeno prati igrača približno 10%, zatim izlazi desno. Napad se može ponoviti ako se zmaj ponovo pozove.
+
+### Platforme
+
+- Stabilna platforma je vidljiva od početka i ima boju podloge teme.
+- Platforma koja dolazi odozdo ili odozgo prije aktivacije je skrivena, aktivira se prekidačem, kreće se srednjom brzinom, zaustavlja na zadatoj visini i ostaje do kraja nivoa.
+- Propadajuća platforma reaguje na stajanje, čeka 0,5 sekundi, zatim pada pravo dole i ne vraća se. Prije aktivacije izgleda identično stabilnoj platformi iste teme.
+- Pokretna platforma je vidljiva od početka, kreće se polako između dvije zadate tačke lijevo-desno ili gore-dole i odmah mijenja smjer na kraju.
+
+### Most i lift
+
+- Stabilni i propadajući most koriste standardni izgled mosta nivoa 1.5.
+- Kod propadajućeg kamenog mosta svaki kamen se aktivira zasebno, počinje padati nakon 0,3 sekunde, a ostali kamenovi ostaju stabilni.
+- Lift se aktivira kada igrač stane na njega, podiže ga srednjom brzinom i postoji samo na kraju šestog nivoa bloka. Koristi postojeći izgled.
+
+### Munja/bljesak
+
+- Bljesne jednom približno 0,5 sekundi kao upozorenje za čekić, zatim nestaje.
+- Ne nanosi štetu i nema drugu funkciju; zvuk se dodaje tek kada bude dostupan.
+
+## 17. Prednost dodatnih definicija
+
+- Kada se starija opšta definicija razlikuje od ovih dodatnih pravila, primjenjuje se novija dodatna definicija.
+- Posebno za šiljke važi grupno aktiviranje sva tri šiljka, a za muhu interval 2–8 sekundi i mirovanje 1 sekundu.

@@ -1,0 +1,20 @@
+; Godot 4 web project for Ragebox's established Stop at 100 challenge.
+config_version=5
+
+[application]
+config/name="Ragebox 100% Challenge"
+run/main_scene="res://Main.tscn"
+config/features=PackedStringArray("4.3")
+
+[display]
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/stretch/mode="canvas_items"
+
+[input]
+charge={"deadzone": 0.5, "events": [Object(InputEventKey,"physical_keycode":32), Object(InputEventMouseButton,"button_index":1)]}
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
