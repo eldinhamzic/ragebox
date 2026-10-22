@@ -18,7 +18,6 @@ config/features=PackedStringArray("4.7")
 
 GameState="*res://scripts/game_state.gd"
 DevLevelNav="*res://scripts/dev_level_nav.gd"
-MobileControls="*res://scripts/mobile_controls.gd"
 
 [display]
 
