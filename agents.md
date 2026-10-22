@@ -188,3 +188,18 @@ Svaki element igre mora imati predvidljivo, stabilno i dosljedno ponašanje bez 
 Cilj je da razvoj novih nivoa prvenstveno predstavlja kombinovanje i podešavanje postojećih elemenata, a ne ponovno programiranje istih funkcionalnosti.
 
 **Prioriteti: stabilnost, ponovna upotreba, dosljednost, jednostavno održavanje i kvalitet gameplaya.**
+
+## 13. Čekić — obavezna definicija elementa
+
+- **Identitet:** Jedinstveni element čekića; koristi se postojeća implementacija i ne mijenja se njegov postojeći vizuelni izgled u bilo kojem nivou.
+- **Aktivacija:** Kada igrač prvi put tokom pokušaja nivoa dođe do okidačke pozicije definisane u konfiguraciji tog nivoa.
+- **Jednokratnost:** Čekić se pokreće samo jednom u jednom pokušaju nivoa. Nakon smrti i ponovnog pokretanja nivoa okidač se resetuje.
+- **Najava:** Na kritičnom mjestu definisanom nivoom bljesne postojeći efekat munje (provjeriti implementaciju korištenu u nivou 3.1). Koristiti isti efekat, ali ga prikazati od vrha ekrana do podloge gdje se očekuje igrač. Bez kreiranja nezavisnog efekta ili mijenjanja drugih nivoa.
+- **Kašnjenje:** Čekić se pokreće 1 sekundu nakon bljeska munje.
+- **Početak:** Čekić se pojavljuje izvan granica scene, na početnoj poziciji koju definiše nivo.
+- **Putanja:** Kreće se pravolinijski iz početne pozicije kroz unaprijed zadatu tačku u nivou. Ne prati trenutnu poziciju igrača, ne mijenja smjer i ne zaustavlja se nakon prolaska kroz ciljnu tačku.
+- **Brzina:** Jedna konstantna brzina za sve nivoe. Koristiti postojeću brzinu iz implementacije; ne izmišljati novu numeričku vrijednost bez provjere koda.
+- **Kolizija:** Dodir čekića i igrača odmah usmrćuje igrača, koristeći postojeći sistem smrti.
+- **Završetak:** Čekić nastavlja pravolinijsko kretanje, prolazi izvan scene i tada se uklanja/deaktivira preko postojećeg mehanizma.
+- **Konfiguracija nivoa:** Okidačka pozicija, početna pozicija izvan scene, tačka kroz koju čekić prolazi i kritično mjesto najave određuju se po nivou. Vrijeme najave, brzina i izgled ostaju zajednički.
+- **Integracija:** Prije izmjene koda pronaći postojeći čekić i munju te minimalno prilagoditi njihove implementacije. Ne duplicirati element i ne mijenjati druge nivoe. Testirati aktivaciju, reset, putanju, koliziju i prikaz munje.
