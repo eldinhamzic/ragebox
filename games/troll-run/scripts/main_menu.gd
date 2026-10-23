@@ -161,6 +161,12 @@ func _show_blocks() -> void:
     block_5.pressed.connect(_show_levels.bind(4))
     block_panel.add_child(block_5)
 
+    var art_test := _make_button("ART TEST 1.1 - NOVI PIXEL DIZAJN", false)
+    art_test.pressed.connect(func() -> void:
+        get_tree().change_scene_to_file("res://scenes/blocks/block01/Level01VisualTest.tscn")
+    )
+    block_panel.add_child(art_test)
+
 
 func _show_levels(block_index: int) -> void:
     _clear_children(level_panel)
