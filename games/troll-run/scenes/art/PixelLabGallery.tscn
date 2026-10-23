@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/art/pixel_lab_level.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2"]
+
+[node name="PixelLabGallery" type="Node2D"]
+script = ExtResource("1")
+background_style = "Day"
+next_level_path = ""
+preview_elements = true
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(24, 450)
