@@ -13,6 +13,10 @@ const SOIL_DARK := Color("#45342b")
 const TURF := Color("#508c47")
 const TURF_LIGHT := Color("#9bc95e")
 
+func _on_player_died() -> void:
+    # The preview remains on this scene instead of restarting the campaign.
+    deaths += 1
+
 func _process(_delta: float) -> void:
     # Test only: reaching the end must never advance campaign progress.
     pass
