@@ -167,6 +167,18 @@ func _show_blocks() -> void:
     )
     block_panel.add_child(art_test)
 
+    var pixel_lab := _make_button("PIXEL LAB - NOVI NIVO 1 / 10 PODLOGA", false)
+    pixel_lab.pressed.connect(func() -> void:
+        get_tree().change_scene_to_file("res://scenes/art/PixelLabLevel01.tscn")
+    )
+    block_panel.add_child(pixel_lab)
+
+    var art_gallery := _make_button("PIXEL LAB - GALERIJA ELEMENATA", false)
+    art_gallery.pressed.connect(func() -> void:
+        get_tree().change_scene_to_file("res://scenes/art/PixelLabGallery.tscn")
+    )
+    block_panel.add_child(art_gallery)
+
 
 func _show_levels(block_index: int) -> void:
     _clear_children(level_panel)
